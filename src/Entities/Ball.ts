@@ -15,6 +15,7 @@ class Ball implements IEntity {
     draw = (context: CanvasRenderingContext2D) => {
         context.save();
         context.beginPath();
+        context.fillStyle = 'red';
         context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
         context.stroke();
         context.restore();
@@ -25,7 +26,8 @@ class Ball implements IEntity {
     }
 
     update = () => {
-
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
     }
 }
 

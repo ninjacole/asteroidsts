@@ -29,7 +29,7 @@
     "webpack-dev-server": "^4.7.4"
   },
   "scripts": {
-    "serve": "webpack-dev-server",
+    "serve": "webpack-dev-server --config webpack.config.js --hot",
     "build": "webpack"
   }
 }

@@ -2,6 +2,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: './src/Game.ts',
     module: {
         rules: [
@@ -17,8 +18,7 @@ module.exports = {
     },
     output: {
         filename: 'gamebundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist')
     },
     plugins: [
         new CopyPlugin({
@@ -29,8 +29,12 @@ module.exports = {
         }),
     ],
     devServer: {
+        liveReload: true,
+        hot: false,
         static: {
-            directory: path.resolve(__dirname, 'dist')
+            directory: path.resolve(__dirname, 'dist'),
+            publicPath: '/dist',
+            watch: true,
         }
     }
 }
