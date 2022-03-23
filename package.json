@@ -1,0 +1,18 @@
+{
+    "name": "coleasteroids",
+    "version": "1.0.0",
+    "description": "Spin on the classic Asteroids game redone in TypeScript",
+    "keywords": [
+        "asteroids",
+        "canvas",
+        "game",
+        "typescript"
+    ],
+    "email": "naaruty@gmail.com",
+    "dependencies": {
+        "local-web-server": "^5.2.0"
+    },
+    "scripts": {
+        "dev": "ws"
+    }
+}
