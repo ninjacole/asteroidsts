@@ -1,49 +1,58 @@
+import { Canvas } from "./Canvas";
 import { Ball } from "./Entities/Ball";
+import { Mouse } from "./Input/Mouse";
 import { IEntity } from "./Interfaces/IEntity";
+import { Vector } from "./Utilities/Vector";
 
 class Game {
-    canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D;
-
+    private static instance: Game;
+    canvas: Canvas = Canvas.getInstance();
+    mouse: Mouse = Mouse.getInstance();
     entities: IEntity[] = [];
 
-    constructor(canvas: HTMLCanvasElement) {
-        this.canvas = canvas;
-        this.context = canvas.getContext('2D') as CanvasRenderingContext2D;
-
-        this.entities[0] = new Ball({x: 100, y: 100}, {x: 10, y: 10});
+    private constructor() {
+        this.entities[0] = new Ball(new Vector(10, 10), new Vector(5, 5));
     }
     
-    update = () => {
-        this.entities.forEach((entity: IEntity) => {
-            entity.update();
-        })
-    }
-
-    input = () => {
-
-    }
-
-    draw = () => {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.context);
+    public static getInstance = () => {
+        if (!this.instance) {
+            this.instance = new Game();
         }
+
+        return this.instance;
     }
 
-    loop = (timestamp: number) => {
+    public start = () => {
+        requestAnimationFrame(this.loop);
+    }
+
+    private loop = (timestamp: number) => {
         this.input();
         this.update();
         this.draw();
         requestAnimationFrame(this.loop);
     }
 
-    start = () => {
-        requestAnimationFrame(this.loop);
+    private input = () => {
+        this.entities.forEach((entity: IEntity) => {
+            entity.input();
+        })
+    }
+    
+    private update = () => {
+        this.entities.forEach((entity: IEntity) => {
+            entity.update();
+        })
+    }
+
+    private draw = () => {
+        this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        for (let i = 0; i < this.entities.length; i++) {
+            this.entities[i].draw(this.canvas.context);
+        }
     }
 }
 
-const g = new Game(document.getElementById('gameCanvas') as HTMLCanvasElement);
-
-export { Game }
+const game: Game = Game.getInstance()
+game.start();
