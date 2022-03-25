@@ -2,9 +2,13 @@ import { IHashTable } from "../Interfaces/IHashTable";
 
 class AssetLoader {
     private static instance: AssetLoader;
-    private static rootDir: string = "./images/";
+    private static rootDir: string = "";
 
-    private constructor() { }
+    private constructor() { 
+        const href: string = document.location.href;
+        const joiner: string = href[href.length - 1] == '/' ? '' : '/';
+        AssetLoader.rootDir = href + joiner + "images/";
+    }
 
     public static getInstance = (): AssetLoader => {
         if (!this.instance) {
