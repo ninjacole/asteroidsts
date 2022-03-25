@@ -2,7 +2,7 @@ import { IHashTable } from "../Interfaces/IHashTable";
 
 class AssetLoader {
     private static instance: AssetLoader;
-    private static rootDir: string = "/images/";
+    private static rootDir: string = "./images/";
 
     private constructor() { }
 
