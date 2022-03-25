@@ -16,15 +16,13 @@ jobs:
           persist-credentials: false
 
       - name: Install
-        run: yarn install
+        run: npm install
 
       - name: Build
-        run: |
-          yarn autoclean
-          yarn build
+        run: npm build
 
       - name: Deploy to GH Page
-        uses: ninjacole/asteroidsts@main
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           branch: gh-pages
           folder: dist
