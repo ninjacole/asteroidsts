@@ -21,16 +21,23 @@ module.exports = (env, argv) => {
         },
         output: {
             filename: 'gamebundle.js',
-            path: isDev ? path.resolve(__dirname, 'dist') : "/"
+            path: isDev ? path.resolve(__dirname, 'dist') : "/asteroidsts/"
         },
-        plugins: [
+        plugins: [ isDev ?
             new CopyPlugin({
                 patterns: [
                     { from: "src/css", to: "css" },
                     { from: "index.html", to: "." },
                     { from: "images", to: "images" }
                 ],
-            }),
+            }) :
+            new CopyPlugin({
+                patterns: [
+                    { from: "src/css", to: "/asteroidsts/css" },
+                    { from: "index.html", to: "/asteroidsts/" },
+                    { from: "images", to: "/asteroidsts/images" }
+                ]
+            })
         ],
         devServer: isDev ? {
             liveReload: true,
