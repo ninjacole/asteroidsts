@@ -4,21 +4,24 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = (env, argv) => {
     var config = {
         mode: 'development',
-        entry: './src/Game.ts',
+        entry: {
+            gamebundle: './src/Game.ts', 
+            uibundle: './src/index.tsx'
+        },
         module: {
             rules: [
                 {
-                    test: /\.ts$/,
+                    test: /\.(ts|tsx)$/,
                     use: 'ts-loader',
                     include: [path.resolve(__dirname, 'src')]
                 },
             ]
         },
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.ts', '.tsx', '.js']
         },
         output: {
-            filename: 'gamebundle.js',
+            filename: '[name].js',
             path: path.resolve(__dirname, 'dist')
         },
         plugins: [ 
