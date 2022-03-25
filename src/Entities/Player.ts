@@ -4,6 +4,8 @@ import { IEntity } from "../Interfaces/IEntity";
 import { Images } from "../AssetLoading/Images";
 import { Vector } from "../Utilities/Vector";
 import { Sounds } from "../AssetLoading/Sounds";
+import { Weapon } from "./Weapon";
+import { Bullet } from "./Bullet";
 
 class Player implements IEntity {
     private position: Vector;
@@ -17,30 +19,37 @@ class Player implements IEntity {
     private mouse: Mouse = Mouse.getInstance();
     private speed: number = 3;
     private weaponSound: HTMLAudioElement = Sounds.LASER;
+    private weapon: Weapon = new Weapon();
 
     constructor(position: Vector, velocity: Vector) {
         this.position = position;
         this.velocity = velocity;
     }
 
-    draw = (context: CanvasRenderingContext2D) => {
-        const origin: Vector = new Vector(this.image.width / 2, this.image.height / 2);
-        const scale = 1;
-        context.save();
-        context.translate(this.position.x, this.position.y);
-        context.rotate(this.rotation);
-        context.drawImage(this.image, 0, 0, this.image.width, this.image.height, -origin.x, -origin.y, this.image.width, this.image.height * scale);
-        context.restore();
+    draw = () => {
+        const canvas: Canvas = Canvas.getInstance();
+        canvas.drawImage(this.image, this.position, this.rotation);
+
+        this.weapon.bulletsFired.forEach((bullet: Bullet) => {
+            bullet.draw();
+        })
     }
 
     update = () => {
         const canvas: Canvas = Canvas.getInstance();
-        this.position.x = this.getPositionChange(this.position.x, this.velocity.x, canvas.width);
-        this.position.y = this.getPositionChange(this.position.y, this.velocity.y, canvas.height);
+        this.position = canvas.getPositionChange(this.position, this.velocity)
 
         var opposite = this.mouse.position.y - this.position.y;
         var adjacent = this.mouse.position.x - this.position.x;
         this.rotation = Math.atan2(opposite, adjacent);
+
+        for (let i = this.weapon.bulletsFired.length - 1; i >= 0; i -= 1) {
+            if (this.weapon.bulletsFired[i].canTravel()) {
+                this.weapon.bulletsFired[i].update();
+            } else {
+                this.weapon.bulletsFired.splice(i, 1);
+            }
+        }
     }
 
     engineStart = () => {
@@ -66,6 +75,7 @@ class Player implements IEntity {
 
     fireWeapon = () => {
         this.weaponSound.play();
+        this.weapon.fire(this.position.clone(), this.velocity.clone(), this.rotation);
     }
 
     getVelocityUpdate = (velocity: number, change: number): number => {
@@ -77,16 +87,6 @@ class Player implements IEntity {
         }
 
         return newVel;
-    }
-    private getPositionChange = (pos: number, dx: number, max: number): number => {
-        let newPos: number = pos + dx;
-        if (newPos > max) {
-            newPos = 0;
-        } else if (newPos < 0) {
-            newPos = max;
-        }
-
-        return newPos;
     }
 }
 

@@ -31,7 +31,6 @@ class Mouse {
     }
 
     private handleDown = (event: MouseEvent) => {
-        console.log('pushed button: ' + event.button);
         this.downButtons[event.button] = true;
     }
 
