@@ -21,7 +21,7 @@ module.exports = (env, argv) => {
         },
         output: {
             filename: 'gamebundle.js',
-            path: isDev ? path.resolve(__dirname, 'dist') : '.'
+            path: isDev ? path.resolve(__dirname, 'dist') : path.resolve(__dirname)
         },
         plugins: [
             new CopyPlugin({
