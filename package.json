@@ -32,6 +32,6 @@
   "scripts": {
     "serve": "webpack-dev-server --config webpack.config.js --hot",
     "build": "webpack",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   }
 }
