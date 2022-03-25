@@ -30,6 +30,7 @@
   },
   "scripts": {
     "serve": "webpack-dev-server --config webpack.config.js --hot",
-    "build": "webpack"
+    "build": "webpack",
+    "buildProd": "webpack --mode production"
   }
 }
