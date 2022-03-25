@@ -1,8 +1,9 @@
 import { Canvas } from "../Canvas";
 import { Mouse } from "../Input/Mouse";
 import { IEntity } from "../Interfaces/IEntity";
-import { AssetLoader } from "../Utilities/AssetLoader";
+import { Images } from "../AssetLoading/Images";
 import { Vector } from "../Utilities/Vector";
+import { Sounds } from "../AssetLoading/Sounds";
 
 class Player implements IEntity {
     private position: Vector;
@@ -10,17 +11,16 @@ class Player implements IEntity {
     private rotation: number = 0;
     private accelerationCoefficient: number = 0.1;
     private maxSpeed = 12;
-    private movingImage: HTMLImageElement = new Image();
-    private idleImage: HTMLImageElement = new Image();
-    private image: HTMLImageElement = new Image();
+    private movingImage: HTMLImageElement = Images.SHIP_SINGLE_MOVING;
+    private idleImage: HTMLImageElement = Images.SHIP_SINGLE;
+    private image: HTMLImageElement = Images.SHIP_SINGLE;
     private mouse: Mouse = Mouse.getInstance();
     private speed: number = 3;
+    private weaponSound: HTMLAudioElement = Sounds.LASER;
 
     constructor(position: Vector, velocity: Vector) {
         this.position = position;
         this.velocity = velocity;
-        this.idleImage = AssetLoader.images["SHIP_SINGLE"];
-        this.movingImage = AssetLoader.images["SHIP_SINGLE_MOVING"]
     }
 
     draw = (context: CanvasRenderingContext2D) => {
@@ -62,6 +62,10 @@ class Player implements IEntity {
 
     engineStop = () => {
         this.image = this.idleImage;
+    }
+
+    fireWeapon = () => {
+        this.weaponSound.play();
     }
 
     getVelocityUpdate = (velocity: number, change: number): number => {

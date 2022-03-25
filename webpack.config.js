@@ -26,7 +26,8 @@ module.exports = (env, argv) => {
                 patterns: [
                     { from: "src/css", to: "css" },
                     { from: "index.html", to: "." },
-                    { from: "src/images", to: "images" }
+                    { from: "src/images", to: "images" },
+                    { from: "src/sounds", to: "sounds" }
                 ],
             })
         ],

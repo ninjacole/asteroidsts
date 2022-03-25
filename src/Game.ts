@@ -4,10 +4,9 @@ import { InputHandler } from "./Input/InputHandler";
 import { Mouse } from "./Input/Mouse";
 import { ICommand } from "./Interfaces/ICommand";
 import { IEntity } from "./Interfaces/IEntity";
-import { AssetLoader } from "./Utilities/AssetLoader";
-import { keys } from "./Utilities/Keys";
-import { RotationDirection } from "./Utilities/RotationDirection";
+import { AssetLoader } from "./AssetLoading/AssetLoader";
 import { Vector } from "./Utilities/Vector";
+import { keys } from "./Utilities/Keys";
 
 class Game {
     private static instance: Game;
@@ -41,10 +40,18 @@ class Game {
             },
             button: 0
         };
+
+        this.inputHandler.playerFire = {
+            execute: () => {
+                player.fireWeapon();
+            },
+            key: keys.SPACE
+        }
         requestAnimationFrame(this.loop);
     }
 
     public init = () => {
+        document.addEventListener('contextmenu', event => event.preventDefault());
         this.loader.loadAssets(this.start);
     }
 
