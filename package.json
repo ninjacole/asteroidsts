@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/ninjacole/asteroidsts/issues"
   },
-  "homepage": "https://github.com/ninjacole/asteroidsts#readme",
+  "homepage": "https://ninjacole.github.io/asteroidsts/",
   "devDependencies": {
     "copy-webpack-plugin": "^10.2.4",
     "gh-pages": "^3.2.3",
