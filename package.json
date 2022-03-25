@@ -22,6 +22,7 @@
   "homepage": "https://github.com/ninjacole/asteroidsts#readme",
   "devDependencies": {
     "copy-webpack-plugin": "^10.2.4",
+    "gh-pages": "^3.2.3",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.2",
     "webpack": "^5.70.0",
@@ -31,6 +32,6 @@
   "scripts": {
     "serve": "webpack-dev-server --config webpack.config.js --hot",
     "build": "webpack",
-    "buildProd": "webpack --mode production"
+    "deploy": "gh-pages -d build"
   }
 }
