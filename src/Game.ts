@@ -1,17 +1,23 @@
 import { Canvas } from "./Canvas";
-import { Ball } from "./Entities/Ball";
+import { Player } from "./Entities/Player";
+import { InputHandler } from "./Input/InputHandler";
 import { Mouse } from "./Input/Mouse";
+import { ICommand } from "./Interfaces/ICommand";
 import { IEntity } from "./Interfaces/IEntity";
+import { AssetLoader } from "./Utilities/AssetLoader";
+import { keys } from "./Utilities/Keys";
+import { RotationDirection } from "./Utilities/RotationDirection";
 import { Vector } from "./Utilities/Vector";
 
 class Game {
     private static instance: Game;
     canvas: Canvas = Canvas.getInstance();
     mouse: Mouse = Mouse.getInstance();
+    loader: AssetLoader = AssetLoader.getInstance();
+    inputHandler: InputHandler = InputHandler.getInstance();
     entities: IEntity[] = [];
 
     private constructor() {
-        this.entities[0] = new Ball(new Vector(10, 10), new Vector(5, 5));
     }
     
     public static getInstance = () => {
@@ -23,7 +29,23 @@ class Game {
     }
 
     public start = () => {
+        const player = new Player(new Vector(500, 500), new Vector());
+        this.entities.push(player);
+
+        this.inputHandler.movePlayer = {
+            execute: () => {
+                player.engineStart()
+            },
+            undoAction: () => {
+                player.engineStop()
+            },
+            button: 0
+        };
         requestAnimationFrame(this.loop);
+    }
+
+    public init = () => {
+        this.loader.loadAssets(this.start);
     }
 
     private loop = (timestamp: number) => {
@@ -34,8 +56,14 @@ class Game {
     }
 
     private input = () => {
-        this.entities.forEach((entity: IEntity) => {
-            entity.input();
+        const commands: ICommand[] = this.inputHandler.getExecuteCommands();
+        commands.forEach((value: ICommand) => {
+            value.execute();
+        })
+
+        const cancelCommands: ICommand[] = this.inputHandler.getCanceledCommands();
+        cancelCommands.forEach((value: ICommand) => {
+            value.undoAction && value.undoAction();
         })
     }
     
@@ -55,4 +83,4 @@ class Game {
 }
 
 const game: Game = Game.getInstance()
-game.start();
+game.init();

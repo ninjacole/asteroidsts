@@ -1,11 +1,11 @@
+import { IHashTable } from "../Interfaces/IHashTable";
 import { Vector } from "../Utilities/Vector";
 
 class Mouse {
     private static instance: Mouse;
 
     public position: Vector;
-    public leftDown: boolean = false;
-    public rightDown: boolean = false;
+    private downButtons: IHashTable<boolean> = {};
 
     private constructor() {
         this.position = new Vector();
@@ -22,24 +22,21 @@ class Mouse {
         return this.instance;
     }
 
+    public isButtonDown = (button: number): boolean => {
+        return this.downButtons[button];
+    }
+
     private handleMove = (event: MouseEvent) => {
         this.position = new Vector(event.pageX, event.pageY);
     }
 
     private handleDown = (event: MouseEvent) => {
-        if (event.button == 1) {
-            this.leftDown = true;
-        } else if (event.button == 2) {
-            this.rightDown = true;
-        }
+        console.log('pushed button: ' + event.button);
+        this.downButtons[event.button] = true;
     }
 
     private handleUp = (event: MouseEvent) => {
-        if (event.button == 1) {
-            this.leftDown = false;
-        } else if (event.button == 2) {
-            this.rightDown = false;
-        }
+        delete this.downButtons[event.button];
     }
 }
 

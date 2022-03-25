@@ -32,7 +32,6 @@ class Vector {
     public equals = (vector: Vector) => {
         return vector.x == this.x && vector.y == this.y;
     }
-
 }
 
 export { Vector }
