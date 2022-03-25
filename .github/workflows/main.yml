@@ -24,7 +24,7 @@ jobs:
           yarn build
 
       - name: Deploy to GH Page
-        uses: ninjacole/asteroidsts@ref
+        uses: ninjacole/asteroidsts@main
         with:
           branch: gh-pages
           folder: dist
