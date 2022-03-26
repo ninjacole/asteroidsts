@@ -1,4 +1,3 @@
-import { ICommand } from "../interfaces/ICommand";
 import { IHashTable } from "../interfaces/IHashTable";
 
 class Keyboard {

@@ -6,7 +6,7 @@ module.exports = (env, argv) => {
         mode: 'development',
         entry: {
             gamebundle: './src/Game.ts', 
-            uibundle: './src/index.tsx'
+            uibundle: './src/ui/components/index.tsx'
         },
         module: {
             rules: [
