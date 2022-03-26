@@ -1,4 +1,4 @@
-import { Vector } from "./Utilities/Vector";
+import { Vector } from "./utils/Vector";
 
 class Canvas {
     private static instance: Canvas;

@@ -1,5 +1,5 @@
-import { IHashTable } from "../Interfaces/IHashTable";
-import { Vector } from "../Utilities/Vector";
+import { IHashTable } from "../interfaces/IHashTable";
+import { Vector } from "../utils/Vector";
 
 class Mouse {
     private static instance: Mouse;

@@ -1,5 +1,5 @@
 import { Canvas } from "../Canvas";
-import { Vector } from "../Utilities/Vector";
+import { Vector } from "../utils/Vector";
 
 class Bullet {
     private duration: number = 700;

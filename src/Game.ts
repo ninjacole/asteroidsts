@@ -1,12 +1,12 @@
 import { Canvas } from "./Canvas";
-import { Player } from "./Entities/Player";
-import { InputHandler } from "./Input/InputHandler";
-import { Mouse } from "./Input/Mouse";
-import { ICommand } from "./Interfaces/ICommand";
-import { IEntity } from "./Interfaces/IEntity";
-import { AssetLoader } from "./AssetLoading/AssetLoader";
-import { Vector } from "./Utilities/Vector";
-import { keys } from "./Utilities/Keys";
+import { Player } from "./entities/Player";
+import { InputHandler } from "./input/InputHandler";
+import { Mouse } from "./input/Mouse";
+import { ICommand } from "./interfaces/ICommand";
+import { IEntity } from "./interfaces/IEntity";
+import { AssetLoader } from "./assetLoading/AssetLoader";
+import { Vector } from "./utils/Vector";
+import { keys } from "./utils/Keys";
 
 class Game {
     private static instance: Game;

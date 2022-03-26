@@ -1,5 +1,5 @@
-import { ICommand } from "../Interfaces/ICommand";
-import { IHashTable } from "../Interfaces/IHashTable";
+import { ICommand } from "../interfaces/ICommand";
+import { IHashTable } from "../interfaces/IHashTable";
 
 class Keyboard {
     private static instance: Keyboard;

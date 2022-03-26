@@ -1,9 +1,9 @@
 import { Canvas } from "../Canvas";
-import { Mouse } from "../Input/Mouse";
-import { IEntity } from "../Interfaces/IEntity";
-import { Images } from "../AssetLoading/Images";
-import { Vector } from "../Utilities/Vector";
-import { Sounds } from "../AssetLoading/Sounds";
+import { Mouse } from "../input/Mouse";
+import { IEntity } from "../interfaces/IEntity";
+import { Images } from "../assetLoading/Images";
+import { Vector } from "../utils/Vector";
+import { Sounds } from "../assetLoading/Sounds";
 import { Weapon } from "./Weapon";
 import { Bullet } from "./Bullet";
 

@@ -1,4 +1,4 @@
-import { ICommand } from "../Interfaces/ICommand"
+import { ICommand } from "../interfaces/ICommand"
 import { Keyboard } from "./Keyboard";
 import { Mouse } from "./Mouse";
 

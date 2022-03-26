@@ -1,5 +1,5 @@
-import { Sounds } from "../AssetLoading/Sounds";
-import { Vector } from "../Utilities/Vector";
+import { Sounds } from "../assetLoading/Sounds";
+import { Vector } from "../utils/Vector";
 import { Bullet } from "./Bullet";
 
 class Weapon {

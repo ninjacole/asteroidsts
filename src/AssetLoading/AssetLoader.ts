@@ -1,6 +1,6 @@
-import { IHashTable } from "../Interfaces/IHashTable";
-import { Images } from "./Images";
-import { Sounds } from "./Sounds";
+import { IHashTable } from "../interfaces/IHashTable";
+import { Images } from './Images';
+import { Sounds } from './Sounds';
 
 class AssetLoader {
     private static instance: AssetLoader;
