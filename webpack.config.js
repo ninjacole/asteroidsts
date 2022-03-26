@@ -4,9 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = (env, argv) => {
     var config = {
         mode: 'development',
-        entry: {
-            gamebundle: './src/Game.ts',
-        },
+        entry: './src/Game.ts',
         module: {
             rules: [
                 {
