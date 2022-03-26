@@ -5,13 +5,12 @@ module.exports = (env, argv) => {
     var config = {
         mode: 'development',
         entry: {
-            gamebundle: './src/Game.ts', 
-            uibundle: './src/ui/components/index.tsx'
+            gamebundle: './src/Game.ts',
         },
         module: {
             rules: [
                 {
-                    test: /\.(ts|tsx)$/,
+                    test: /\.ts$/,
                     use: 'ts-loader',
                     include: [path.resolve(__dirname, 'src')]
                 },
@@ -21,7 +20,7 @@ module.exports = (env, argv) => {
             extensions: ['.ts', '.tsx', '.js']
         },
         output: {
-            filename: '[name].js',
+            filename: 'gamebundle.js',
             path: path.resolve(__dirname, 'dist')
         },
         plugins: [ 
