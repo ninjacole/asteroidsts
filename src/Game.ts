@@ -7,17 +7,16 @@ import { IEntity } from "./interfaces/IEntity";
 import { AssetLoader } from "./assetLoading/AssetLoader";
 import { Vector } from "./utils/Vector";
 import { keys } from "./utils/Keys";
+import { Menu } from "./ui/Menu";
 
 class Game {
     private static instance: Game;
     canvas: Canvas = Canvas.getInstance();
     mouse: Mouse = Mouse.getInstance();
-    loader: AssetLoader = AssetLoader.getInstance();
     inputHandler: InputHandler = InputHandler.getInstance();
     entities: IEntity[] = [];
 
-    private constructor() {
-    }
+    private constructor() {}
     
     public static getInstance = () => {
         if (!this.instance) {
@@ -50,9 +49,28 @@ class Game {
         requestAnimationFrame(this.loop);
     }
 
+    public pause = () => {
+
+    }
+
+    public resume = () => {
+
+    }
+
+    public gameOver = () => {
+
+    }
+
+    public waveStart = () => {
+        
+    }
+
     public init = () => {
+        // Prevent right-click browser menu
         document.addEventListener('contextmenu', event => event.preventDefault());
-        this.loader.loadAssets(this.start);
+        AssetLoader.getInstance().loadAssets(() => {
+            Menu.getInstance(this).showStart();
+        });
     }
 
     private loop = (timestamp: number) => {
@@ -89,5 +107,5 @@ class Game {
     }
 }
 
-const game: Game = Game.getInstance()
-game.init();
+export { Game }
+Game.getInstance().init();

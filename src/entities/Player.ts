@@ -18,7 +18,7 @@ class Player implements IEntity {
     private image: HTMLImageElement = Images.SHIP_SINGLE;
     private mouse: Mouse = Mouse.getInstance();
     private speed: number = 3;
-    private weaponSound: HTMLAudioElement = Sounds.LASER;
+    private weaponSound: HTMLAudioElement = Sounds.LASER2;
     private weapon: Weapon = new Weapon();
 
     constructor(position: Vector, velocity: Vector) {

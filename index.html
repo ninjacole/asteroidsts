@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width-device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./css/main.css"  />
-    </head>
 
-    <body>
-        <title>Cole Asteroids</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width-device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <title>Cole Asteroids</title>
+    <div id="container">
+        <div id="main-menu" class="menu">
+            <a id="new-game" class="menu-button">NEW GAME</a>
+            <a id="reset-scores" class="menu-button">CLEAR HIGH SCORES</a><span id="scores-cleared"
+                style="color:white"></span>
+        </div>
+
+        <div id="pause-menu" class="menu">
+            <a id="resume-game" class="menu-button">RESUME GAME</a>
+            <a id="exit-game" class="menu-button">EXIT TO MAIN MENU</a>
+        </div>
+
+        <div id="game-over" class="menu">
+            <p id="game-end-message" class="game-over-text">GAME OVER</p>
+            <p id="game-over-score" class="game-over-text"></p>
+            <p id="game-over-enemies-killed" class="game-over-text"></p>
+        </div>
+
+        <div id="wave-transition" class="menu">
+            <p id="wave-element" class="game-over-text"></p>
+        </div>
+
         <canvas id="gameCanvas" style="background-image:url('images/bg.png')"></canvas>
-        <script src="uibundle.js"></script>
-        <script src="gamebundle.js"></script>
-    </body>
+
+    </div>
+
+    <script src="gamebundle.js"></script>
+</body>
+
 </html>

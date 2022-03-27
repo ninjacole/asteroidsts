@@ -21,6 +21,7 @@
   },
   "homepage": "https://ninjacole.github.io/asteroidsts/",
   "devDependencies": {
+    "@types/jquery": "^3.5.14",
     "copy-webpack-plugin": "^10.2.4",
     "gh-pages": "^3.2.3",
     "ts-loader": "^9.2.8",
