@@ -35,7 +35,7 @@ class Bullet {
         this.origin.add(this.velocity);
 
         const canvas: Canvas = Canvas.getInstance();
-        this.origin = canvas.getPositionChange(this.origin, this.velocity);
+        this.origin = canvas.updatePosition(this.origin, this.velocity);
         
         this.timeTravelled = Date.now() - this.startTime;
     };

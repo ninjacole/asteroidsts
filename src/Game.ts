@@ -3,12 +3,13 @@ import { Player } from "./entities/Player";
 import { InputHandler } from "./input/InputHandler";
 import { Mouse } from "./input/Mouse";
 import { ICommand } from "./interfaces/ICommand";
-import { IEntity } from "./interfaces/IEntity";
 import { AssetLoader } from "./assetLoading/AssetLoader";
 import { Vector } from "./utils/Vector";
 import { keys } from "./utils/Keys";
 import { Menu } from "./ui/Menu";
 import { GameLoop } from "./utils/GameLoop";
+import { Asteroid } from "./entities/Asteroid";
+import { GameObject } from "./entities/GameObject";
 
 class Game {
     private static instance: Game;
@@ -19,7 +20,7 @@ class Game {
     menu: Menu = Menu.getInstance(this);
     gameLoop: GameLoop = GameLoop.getInstance();
 
-    entities: IEntity[] = [];
+    entities: GameObject[] = [];
 
     private constructor() { }
 
@@ -51,6 +52,13 @@ class Game {
     public start = () => {
         this.initPlayer();
         this.initCommands();
+        // todo: remove this- testing only
+        this.entities.push(Asteroid.spawn());
+
+
+
+
+
         this.gameLoop.run(this.loop);
     }
 
@@ -121,17 +129,21 @@ class Game {
     }
 
     private update = () => {
-        this.entities.forEach((entity: IEntity) => {
+        this.entities.forEach((entity: GameObject) => {
             entity.update();
-        })
+        });
     }
 
     private draw = () => {
         this.canvas.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.canvas.context);
+            this.entities[i].draw();
         }
+    }
+
+    private detectBulletAsteroidCollisions = () => {
+
     }
 }
 

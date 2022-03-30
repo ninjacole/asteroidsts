@@ -26,14 +26,14 @@ class Canvas {
         return this.instance;
     }
 
-    public drawImage = (image: HTMLImageElement, pos: Vector, rotation: number) => {
+    public drawImage = (image: HTMLImageElement, pos: Vector, rotation: number, scale?: number) => {
         const context: CanvasRenderingContext2D = Canvas.getInstance().context;
         const origin: Vector = new Vector(image.width / 2, image.height / 2);
-        const scale = 1;
+        scale = scale || 1;
         context.save();
         context.translate(pos.x, pos.y);
         context.rotate(rotation);
-        context.drawImage(image, 0, 0, image.width, image.height, -origin.x, -origin.y, image.width, image.height * scale);
+        context.drawImage(image, 0, 0, image.width, image.height, -origin.x * scale, -origin.y * scale, image.width * scale, image.height * scale);
         context.restore();
     }
 
@@ -41,7 +41,7 @@ class Canvas {
         return new Vector(this.canvas.width / 2, this.canvas.height / 2);
     }
 
-    public getPositionChange = (pos: Vector, velocity: Vector): Vector => {
+    public updatePosition = (pos: Vector, velocity: Vector): Vector => {
         pos.add(velocity);
         const maxHeight: number = this.canvas.height;
         const maxWidth: number = this.canvas.width;

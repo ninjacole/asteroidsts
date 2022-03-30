@@ -1,29 +1,26 @@
 import { Canvas } from "../Canvas";
 import { Mouse } from "../input/Mouse";
-import { IEntity } from "../interfaces/IEntity";
 import { Images } from "../assetLoading/Images";
 import { Vector } from "../utils/Vector";
 import { Sounds } from "../assetLoading/Sounds";
 import { Weapon } from "./Weapon";
 import { Bullet } from "./Bullet";
+import { limitNumber, limitVector } from "../utils/Utils";
+import { GameObject } from "./GameObject";
 
-class Player implements IEntity {
-    private position: Vector;
-    private velocity: Vector;
+class Player extends GameObject {
     private rotation: number = 0;
     private accelerationCoefficient: number = 0.1;
     private maxSpeed = 12;
     private movingImage: HTMLImageElement = Images.SHIP_SINGLE_MOVING;
     private idleImage: HTMLImageElement = Images.SHIP_SINGLE;
     private image: HTMLImageElement = Images.SHIP_SINGLE;
-    private mouse: Mouse = Mouse.getInstance();
     private speed: number = 3;
     private weaponSound: HTMLAudioElement = Sounds.LASER2;
     private weapon: Weapon = new Weapon();
 
     constructor(position: Vector, velocity: Vector) {
-        this.position = position;
-        this.velocity = velocity;
+        super(position, velocity);
     }
 
     draw = () => {
@@ -37,10 +34,11 @@ class Player implements IEntity {
 
     update = () => {
         const canvas: Canvas = Canvas.getInstance();
-        this.position = canvas.getPositionChange(this.position, this.velocity)
+        const mouse: Mouse = Mouse.getInstance();
+        this.position = canvas.updatePosition(this.position, this.velocity)
 
-        var opposite = this.mouse.position.y - this.position.y;
-        var adjacent = this.mouse.position.x - this.position.x;
+        var opposite = mouse.position.y - this.position.y;
+        var adjacent = mouse.position.x - this.position.x;
         this.rotation = Math.atan2(opposite, adjacent);
 
         for (let i = this.weapon.bulletsFired.length - 1; i >= 0; i -= 1) {
@@ -53,20 +51,19 @@ class Player implements IEntity {
     }
 
     engineStart = () => {
+        const mouse: Mouse = Mouse.getInstance();
         this.image = this.movingImage;
-        const dx: number = this.mouse.position.x - this.position.x;
-        const dy: number = this.mouse.position.y - this.position.y;
+        const dx: number = mouse.position.x - this.position.x;
+        const dy: number = mouse.position.y - this.position.y;
         let angle: number = Math.atan2(dy, dx);
 
         if (angle < 0) {
             angle += Math.PI * 2;
         }
 
-        const newVx: number = Math.cos(angle) * this.speed * this.accelerationCoefficient;
-        const newVy: number = Math.sin(angle) * this.speed * this.accelerationCoefficient;
-
-        this.velocity.x = this.getVelocityUpdate(this.velocity.x, newVx);
-        this.velocity.y = this.getVelocityUpdate(this.velocity.y, newVy);
+        const newVelocity: Vector = new Vector(Math.cos(angle) * this.speed * this.accelerationCoefficient, Math.sin(angle) * this.speed * this.accelerationCoefficient);
+        this.velocity.add(newVelocity);
+        limitVector(this.velocity, this.maxSpeed * -1, this.maxSpeed);
     }
 
     engineStop = () => {
@@ -80,11 +77,7 @@ class Player implements IEntity {
 
     getVelocityUpdate = (velocity: number, change: number): number => {
         let newVel: number = velocity + change;
-        if (newVel > this.maxSpeed) {
-            newVel = this.maxSpeed;
-        } else if (newVel < -1 * this.maxSpeed) {
-            newVel = -1 * this.maxSpeed;
-        }
+        newVel = limitNumber(newVel, this.maxSpeed * -1, this.maxSpeed);
 
         return newVel;
     }
