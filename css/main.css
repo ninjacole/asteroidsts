@@ -18,23 +18,6 @@ body {
     padding: 0;
 }
 
-
-html, body {
-    width:100%; 
-    height:100%;
-}
-
-body {
-    font-family: Arial;
-    font-size: 30px;
-}
-
-*, *:before, *:after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 .game-over-text {
     color: white;
 }
@@ -64,8 +47,4 @@ body {
     text-decoration: none;
     background: radial-gradient(ellipse farthest-corner at 0px 50px, #000000 40%, #a04e00);
     border: 3px solid #a04e00;
-}
-
-#gameCanvas {
-    display:block;
 }
