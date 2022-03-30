@@ -8,16 +8,21 @@ import { AssetLoader } from "./assetLoading/AssetLoader";
 import { Vector } from "./utils/Vector";
 import { keys } from "./utils/Keys";
 import { Menu } from "./ui/Menu";
+import { GameLoop } from "./utils/GameLoop";
 
 class Game {
     private static instance: Game;
+
     canvas: Canvas = Canvas.getInstance();
     mouse: Mouse = Mouse.getInstance();
     inputHandler: InputHandler = InputHandler.getInstance();
+    menu: Menu = Menu.getInstance(this);
+    gameLoop: GameLoop = GameLoop.getInstance();
+
     entities: IEntity[] = [];
 
-    private constructor() {}
-    
+    private constructor() { }
+
     public static getInstance = () => {
         if (!this.instance) {
             this.instance = new Game();
@@ -26,8 +31,48 @@ class Game {
         return this.instance;
     }
 
+    public init = () => {
+        this.preventRightClick();
+        this.loadAssets();
+    }
+
+    private preventRightClick = () => {
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    }
+
+    private loadAssets = () => {
+        AssetLoader.getInstance().loadAssets(this.showStartMenu);
+    }
+
+    private showStartMenu = () => {
+        this.menu.showStart();
+    }
+
     public start = () => {
-        const player = new Player(new Vector(500, 500), new Vector());
+        this.initPlayer();
+        this.initCommands();
+        this.gameLoop.run(this.loop);
+    }
+
+    public pause = () => {
+        this.gameLoop.stop();
+        this.menu.showPause();
+    }
+
+    public resume = () => {
+        this.gameLoop.run(this.loop);
+    }
+
+    public gameOver = () => {
+
+    }
+
+    public waveStart = () => {
+
+    }
+
+    private initPlayer = () => {
+        const player = new Player(this.canvas.getCenter(), Vector.zero);
         this.entities.push(player);
 
         this.inputHandler.movePlayer = {
@@ -46,38 +91,21 @@ class Game {
             },
             key: keys.SPACE
         }
-        requestAnimationFrame(this.loop);
     }
 
-    public pause = () => {
-
-    }
-
-    public resume = () => {
-
-    }
-
-    public gameOver = () => {
-
-    }
-
-    public waveStart = () => {
-        
-    }
-
-    public init = () => {
-        // Prevent right-click browser menu
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        AssetLoader.getInstance().loadAssets(() => {
-            Menu.getInstance(this).showStart();
-        });
+    private initCommands = () => {
+        this.inputHandler.pause = {
+            execute: () => {
+                this.pause();
+            },
+            key: keys.ESCAPE
+        }
     }
 
     private loop = (timestamp: number) => {
         this.input();
         this.update();
         this.draw();
-        requestAnimationFrame(this.loop);
     }
 
     private input = () => {
@@ -91,7 +119,7 @@ class Game {
             value.undoAction && value.undoAction();
         })
     }
-    
+
     private update = () => {
         this.entities.forEach((entity: IEntity) => {
             entity.update();

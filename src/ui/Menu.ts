@@ -3,13 +3,9 @@ import { Game } from "../Game";
 
 class Menu {
     private static instance: Menu;
-    private selectSound: HTMLAudioElement;
-    private scoreClearedSound: HTMLAudioElement;
     private game: Game;
 
     private constructor(game: Game) {
-        this.selectSound = Sounds.MENU_SELECT;
-        this.scoreClearedSound = Sounds.SCORE_CLEARED;
         this.game = game;
 
         this.registerEvents();
@@ -25,7 +21,8 @@ class Menu {
 
     private registerEvents = () => {
         $(".menu-button").on('mouseover', () => {
-            this.selectSound.play();
+            Sounds.MENU_SELECT.currentTime = 0;
+            Sounds.MENU_SELECT.play();
         })
 
         $("#new-game").on('click', () => {
@@ -47,7 +44,8 @@ class Menu {
             $("#scores-cleared").text("Cleared!");
             $("#scores-cleared").show().fadeOut(500);
             // ASTEROIDS.scoreManager.clearHighScore();
-            this.scoreClearedSound.play();
+            Sounds.SCORE_CLEARED.currentTime = 0;
+            Sounds.SCORE_CLEARED.play();
         });
     }
 

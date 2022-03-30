@@ -37,6 +37,10 @@ class Canvas {
         context.restore();
     }
 
+    public getCenter = (): Vector => {
+        return new Vector(this.canvas.width / 2, this.canvas.height / 2);
+    }
+
     public getPositionChange = (pos: Vector, velocity: Vector): Vector => {
         pos.add(velocity);
         const maxHeight: number = this.canvas.height;

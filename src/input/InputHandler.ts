@@ -14,9 +14,10 @@ class InputHandler {
     public rotatePlayerRight: ICommand = { execute: () => {}, key: "" };
     public rotatePlayerLeft: ICommand = { execute: () => {}, key: "" };
     public playerFire: ICommand = { execute: () => {}, key: "" };
+    public pause: ICommand = { execute: () => {}, key: "" };
 
     public getExecuteCommands = (): ICommand[] => {
-        let commands :ICommand[] = [this.movePlayer, this.rotatePlayerLeft, this.rotatePlayerRight, this.playerFire];
+        let commands :ICommand[] = [this.movePlayer, this.rotatePlayerLeft, this.rotatePlayerRight, this.playerFire, this.pause];
         let commandsToExecute: ICommand[] = commands.filter((command: ICommand) => {
             return (command.key !== undefined && this.keyboard.isKeyDown(command.key)) ||
                 command.button !== undefined && this.mouse.isButtonDown(command.button);
