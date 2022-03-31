@@ -30,6 +30,8 @@ class Player extends GameObject {
         this.weapon.bulletsFired.forEach((bullet: Bullet) => {
             bullet.draw();
         })
+
+        this.image = this.idleImage;
     }
 
     update = () => {
@@ -64,10 +66,6 @@ class Player extends GameObject {
         const newVelocity: Vector = new Vector(Math.cos(angle) * this.speed * this.accelerationCoefficient, Math.sin(angle) * this.speed * this.accelerationCoefficient);
         this.velocity.add(newVelocity);
         limitVector(this.velocity, this.maxSpeed * -1, this.maxSpeed);
-    }
-
-    engineStop = () => {
-        this.image = this.idleImage;
     }
 
     fireWeapon = () => {

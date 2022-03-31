@@ -1,4 +1,5 @@
-import { ICommand } from "../interfaces/ICommand"
+import { ICommand, KeyAction } from "../interfaces/ICommand"
+import { Commands } from "./Commands";
 import { Keyboard } from "./Keyboard";
 import { Mouse } from "./Mouse";
 
@@ -10,30 +11,19 @@ class InputHandler {
 
     private constructor() { }
 
-    public movePlayer: ICommand = { execute: () => {}, key: "" };
-    public rotatePlayerRight: ICommand = { execute: () => {}, key: "" };
-    public rotatePlayerLeft: ICommand = { execute: () => {}, key: "" };
-    public playerFire: ICommand = { execute: () => {}, key: "" };
-    public pause: ICommand = { execute: () => {}, key: "" };
-
-    public getExecuteCommands = (): ICommand[] => {
-        let commands :ICommand[] = [this.movePlayer, this.rotatePlayerLeft, this.rotatePlayerRight, this.playerFire, this.pause];
+    public getCommands = (): ICommand[] => {
+        const commands: ICommand[] = Commands.getAll();
         let commandsToExecute: ICommand[] = commands.filter((command: ICommand) => {
-            return (command.key !== undefined && this.keyboard.isKeyDown(command.key)) ||
-                command.button !== undefined && this.mouse.isButtonDown(command.button);
-        })
+            if (command.keyAction === KeyAction.UP) {
+                return (command.key !== undefined && !this.keyboard.isKeyDown(command.key)) ||
+                (command.button !== undefined && !this.mouse.isButtonDown(command.button));
+            } else if (command.keyAction === KeyAction.DOWN) {
+                return (command.key !== undefined && this.keyboard.isKeyDown(command.key)) ||
+                (command.button !== undefined && this.mouse.isButtonDown(command.button));
+            }
+        });
 
         return commandsToExecute;
-    }
-
-    public getCanceledCommands = (): ICommand[] => {
-        let commands :ICommand[] = [this.movePlayer];
-        let commandsToCancel: ICommand[] = commands.filter((command: ICommand) => {
-            return (command.key !== undefined && command.undoAction !== undefined && !this.keyboard.isKeyDown(command.key)) ||
-                command.button !== undefined && command.undoAction !== undefined && !this.mouse.isButtonDown(command.button);
-        })
-
-        return commandsToCancel;
     }
 
     public static getInstance = (): InputHandler => {

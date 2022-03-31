@@ -1,8 +1,13 @@
 interface ICommand {
     execute: () => void;
-    undoAction?: () => void;
     key?: string;
     button?: number;
+    keyAction: KeyAction
 }
 
-export { ICommand }
+enum KeyAction {
+    UP,
+    DOWN
+}
+
+export { ICommand, KeyAction }

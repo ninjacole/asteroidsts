@@ -2,7 +2,7 @@ import { Canvas } from "./Canvas";
 import { Player } from "./entities/Player";
 import { InputHandler } from "./input/InputHandler";
 import { Mouse } from "./input/Mouse";
-import { ICommand } from "./interfaces/ICommand";
+import { ICommand, KeyAction } from "./interfaces/ICommand";
 import { AssetLoader } from "./assetLoading/AssetLoader";
 import { Vector } from "./utils/Vector";
 import { keys } from "./utils/Keys";
@@ -10,6 +10,7 @@ import { Menu } from "./ui/Menu";
 import { GameLoop } from "./utils/GameLoop";
 import { Asteroid } from "./entities/Asteroid";
 import { GameObject } from "./entities/GameObject";
+import { Commands } from "./input/Commands";
 
 class Game {
     private static instance: Game;
@@ -19,6 +20,7 @@ class Game {
     inputHandler: InputHandler = InputHandler.getInstance();
     menu: Menu = Menu.getInstance(this);
     gameLoop: GameLoop = GameLoop.getInstance();
+    player: Player = new Player(this.canvas.getCenter(), Vector.zero);
 
     entities: GameObject[] = [];
 
@@ -80,34 +82,35 @@ class Game {
     }
 
     private initPlayer = () => {
-        const player = new Player(this.canvas.getCenter(), Vector.zero);
-        this.entities.push(player);
-
-        this.inputHandler.movePlayer = {
-            execute: () => {
-                player.engineStart()
-            },
-            undoAction: () => {
-                player.engineStop()
-            },
-            button: 0
-        };
-
-        this.inputHandler.playerFire = {
-            execute: () => {
-                player.fireWeapon();
-            },
-            key: keys.SPACE
-        }
+        this.player = new Player(this.canvas.getCenter(), Vector.zero);
+        this.entities.push(this.player);
+        this.initCommands();
     }
 
     private initCommands = () => {
-        this.inputHandler.pause = {
+        Commands.playerFire = {
+            execute: () => {
+                this.player.fireWeapon();
+            },
+            key: keys.SPACE,
+            keyAction: KeyAction.DOWN
+        };
+
+        Commands.pause = {
             execute: () => {
                 this.pause();
             },
-            key: keys.ESCAPE
-        }
+            key: keys.ESCAPE,
+            keyAction: KeyAction.DOWN
+        };
+
+        Commands.movePlayer = {
+            execute: () => {
+                this.player.engineStart()
+            },
+            button: 0,
+            keyAction: KeyAction.DOWN
+        };
     }
 
     private loop = (timestamp: number) => {
@@ -117,14 +120,9 @@ class Game {
     }
 
     private input = () => {
-        const commands: ICommand[] = this.inputHandler.getExecuteCommands();
+        const commands: ICommand[] = this.inputHandler.getCommands();
         commands.forEach((value: ICommand) => {
             value.execute();
-        })
-
-        const cancelCommands: ICommand[] = this.inputHandler.getCanceledCommands();
-        cancelCommands.forEach((value: ICommand) => {
-            value.undoAction && value.undoAction();
         })
     }
 
